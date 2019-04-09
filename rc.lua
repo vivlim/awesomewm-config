@@ -235,6 +235,9 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+            require("awesome-wm-widgets.cpu-widget.cpu-widget"),
+            require("awesome-wm-widgets.ram-widget.ram-widget"),
+            require("awesome-wm-widgets.volume-widget.volume"),
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
@@ -309,8 +312,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "g", function () awful.spawn("env MOZ_USE_XINPUT2=1 firefox") end,
 {description = "open a browser", group = "launcher"}),
 
-    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn("~/bin/cap-vvn") end,
-{description = "screencap vvn.space", group = "launcher"}),
+    awful.key({ modkey,           }, "e", function () awful.spawn("thunar") end,
+{description = "open a file browser", group = "launcher"}),
+
+    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn.with_shell("sleep 0.2; /home/vivlim/bin/cap") end,
+{description = "screencap", group = "launcher"}),
 
     -- end viv additions
 
@@ -495,10 +501,19 @@ awful.rules.rules = {
           "Wpa_gui",
           "pinentry",
           "veromix",
+          "plasmashell",
+          "Plasma",
+          "plasma-desktop",
+          "win7",
+          "krunner",
+          "Kmix",
+          "Klipper",
+          "Plasmoidviewer",
           "xtightvncviewer"},
 
         name = {
           "Event Tester",  -- xev.
+          "Desktop - Plasma"
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
