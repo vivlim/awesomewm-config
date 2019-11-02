@@ -46,9 +46,10 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
+beautiful.font = "Tamzen Bold 12"
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
+terminal = "st"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -194,7 +195,19 @@ local function set_wallpaper(s)
 end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", set_wallpaper)
+-- screen.connect_signal("property::geometry", set_wallpaper)
+
+-- set up battery widgets
+local battery_widget = require("battery-widget")
+local my_bat = battery_widget {
+    ac_prefix = "🔌",
+    battery_prefix = "⚡",
+    widget_text = "${AC_BAT}${color_on}${percent}${time_est}${color_off}",
+    percent_colors = {
+        { 25, "red" },
+        { 999, "white" }
+    }
+}
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -235,7 +248,11 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+            require("awesome-wm-widgets.cpu-widget.cpu-widget"),
+            require("awesome-wm-widgets.ram-widget.ram-widget"),
+            require("awesome-wm-widgets.volume-widget.volume"),
             wibox.widget.systray(),
+            my_bat,
             mytextclock,
             s.mylayoutbox,
         },
@@ -309,8 +326,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "g", function () awful.spawn("env MOZ_USE_XINPUT2=1 firefox") end,
 {description = "open a browser", group = "launcher"}),
 
-    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn("~/bin/cap-vvn") end,
-{description = "screencap vvn.space", group = "launcher"}),
+    awful.key({ modkey,           }, "e", function () awful.spawn("dolphin") end,
+{description = "open a file browser", group = "launcher"}),
+
+    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn.with_shell("sleep 0.2; /home/vivlim/bin/cap") end,
+{description = "screencap", group = "launcher"}),
 
     -- end viv additions
 
