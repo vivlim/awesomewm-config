@@ -515,10 +515,19 @@ awful.rules.rules = {
           "Wpa_gui",
           "pinentry",
           "veromix",
+          "plasmashell",
+          "Plasma",
+          "plasma-desktop",
+          "win7",
+          "krunner",
+          "Kmix",
+          "Klipper",
+          "Plasmoidviewer",
           "xtightvncviewer"},
 
         name = {
           "Event Tester",  -- xev.
+          "Desktop - Plasma"
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
