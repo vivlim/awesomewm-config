@@ -46,10 +46,10 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
-beautiful.font = "Tamzen Bold 12"
+beautiful.font = "Lato Bold 12"
 
 -- This is used later as the default terminal and editor to run.
-terminal = "st"
+terminal = "konsole"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
