@@ -276,7 +276,7 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    awful.key({ modkey,           }, "`", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
     awful.key({ modkey,           }, "j",
@@ -548,6 +548,8 @@ awful.rules.rules = {
     { rule = { class = "Riot" },
     properties = { screen = 1, tag = "💬" } },
     { rule = { class = "IGdm" },
+    properties = { screen = 1, tag = "💬" } },
+    { rule = { class = "Signal" },
     properties = { screen = 1, tag = "💬" } },
     { rule = { class = "Code" },
     properties = { screen = 1, tag = "🛠️" } },
