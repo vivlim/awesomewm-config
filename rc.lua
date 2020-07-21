@@ -326,6 +326,12 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "g", function () awful.spawn("env MOZ_USE_XINPUT2=1 firefox") end,
 {description = "open a browser", group = "launcher"}),
 
+    awful.key({ modkey,           }, "space", function () awful.spawn("rofi -combi-modi window,drun -show combi -modi combi") end,
+{description = "rofi launcher", group = "launcher"}),
+
+    awful.key({ modkey, "Shift"   }, "space", function () awful.spawn("rofi -show window") end,
+{description = "rofi launcher", group = "launcher"}),
+
     awful.key({ modkey,           }, "e", function () awful.spawn("dolphin") end,
 {description = "open a file browser", group = "launcher"}),
 
@@ -346,9 +352,9 @@ globalkeys = gears.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    awful.key({ modkey,           }, "f1", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
+    awful.key({ modkey,    }, "f2", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
