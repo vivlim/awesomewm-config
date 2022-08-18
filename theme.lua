@@ -11,23 +11,23 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "Lato Bold 12"
+theme.font          = "Catamaran Regular 9"
 
-theme.bg_normal     = "#6B0B9C"
-theme.bg_focus      = "#a749ee"
+theme.bg_normal     = "#3f3063"
+theme.bg_focus      = "#745ab0"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#e7c9ff"
-theme.fg_focus      = "#4B0B8C"
+theme.fg_normal     = "#e7defa"
+theme.fg_focus      = "#e7defa"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
-theme.useless_gap   = dpi(0)
+theme.useless_gap   = dpi(2)
 theme.border_width  = dpi(2)
-theme.border_normal = "#6B0B9C"
-theme.border_focus  = "#a749ee"
+theme.border_normal = "#111111"
+theme.border_focus  = "#a0e342"
 theme.border_marked = "#91231c"
 
 -- There are other variable sets

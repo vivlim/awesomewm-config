@@ -7,7 +7,7 @@ local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
-local naughty = require("naughty")
+--local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable hotkeys help widget for VIM and other apps
@@ -15,13 +15,14 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 require("awful.hotkeys_popup.keys")
 
 -- Load Debian menu entries
-local debian = require("debian.menu")
-local has_fdo, freedesktop = pcall(require, "freedesktop")
+--local debian = require("debian.menu")
+--local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
+   local naughty = require("naughty")
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
@@ -35,6 +36,7 @@ do
         if in_error then return end
         in_error = true
 
+      local naughty = require("naughty")
         naughty.notify({ preset = naughty.config.presets.critical,
                          title = "Oops, an error happened!",
                          text = tostring(err) })
@@ -46,7 +48,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
-beautiful.font = "Lato Bold 12"
+beautiful.font = "Catamaran Regular 9"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "konsole"
@@ -59,6 +61,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+alt_modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -118,7 +121,7 @@ else
     mymainmenu = awful.menu({
         items = {
                   menu_awesome,
-                  { "Debian", debian.menu.Debian_menu.Debian },
+                  --{ "Debian", debian.menu.Debian_menu.Debian },
                   menu_terminal,
                 }
     })
@@ -197,24 +200,13 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
--- set up battery widgets
-local battery_widget = require("battery-widget")
-local my_bat = battery_widget {
-    ac_prefix = "🔌",
-    battery_prefix = "⚡",
-    widget_text = "${AC_BAT}${color_on}${percent}${time_est}${color_off}",
-    percent_colors = {
-        { 25, "red" },
-        { 999, "white" }
-    }
-}
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "🌌", "💬", "🛠️", "📓", "5", "6", "7", "💼", "📨" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -233,7 +225,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 20 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -252,7 +244,6 @@ awful.screen.connect_for_each_screen(function(s)
             require("awesome-wm-widgets.ram-widget.ram-widget"),
             require("awesome-wm-widgets.volume-widget.volume"),
             wibox.widget.systray(),
-            my_bat,
             mytextclock,
             s.mylayoutbox,
         },
@@ -317,6 +308,8 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey,           }, "'", function () awful.spawn(terminal) end, -- for ergodox
+              {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -326,16 +319,16 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "g", function () awful.spawn("env MOZ_USE_XINPUT2=1 firefox") end,
 {description = "open a browser", group = "launcher"}),
 
-    awful.key({ modkey,           }, "space", function () awful.spawn("rofi -combi-modi window,drun -show combi -modi combi") end,
+    awful.key({ alt_modkey,           }, "space", function () awful.spawn("rofi -combi-modi window,drun -show combi -modi combi") end,
 {description = "rofi launcher", group = "launcher"}),
 
-    awful.key({ modkey, "Shift"   }, "space", function () awful.spawn("rofi -show window") end,
+    awful.key({ alt_modkey, "Shift"   }, "space", function () awful.spawn("rofi -show window") end,
 {description = "rofi launcher", group = "launcher"}),
 
-    awful.key({ modkey,           }, "e", function () awful.spawn("dolphin") end,
+    awful.key({ modkey,           }, "e", function () awful.spawn("caja .") end,
 {description = "open a file browser", group = "launcher"}),
 
-    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn.with_shell("sleep 0.2; /home/vivlim/bin/cap") end,
+    awful.key({ modkey, "Shift"   }, "s", function () awful.spawn.with_shell("sleep 0.2; /home/vivlim/bin/screenclip.sh") end,
 {description = "screencap", group = "launcher"}),
 
     -- end viv additions
@@ -352,9 +345,9 @@ globalkeys = gears.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "f1", function () awful.layout.inc( 1)                end,
+    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey,    }, "f2", function () awful.layout.inc(-1)                end,
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
@@ -508,10 +501,6 @@ awful.rules.rules = {
 
     -- Floating clients.
     { rule_any = {
-        instance = {
-          "DTA",  -- Firefox addon DownThemAll.
-          "copyq",  -- Includes session name in class.
-        },
         class = {
           "Arandr",
           "Gpick",
@@ -529,8 +518,8 @@ awful.rules.rules = {
           "Kmix",
           "Klipper",
           "Plasmoidviewer",
+          "Mate-panel",
           "xtightvncviewer"},
-
         name = {
           "Event Tester",  -- xev.
           "Desktop - Plasma"
@@ -546,23 +535,27 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = false }
     },
 
+    { rule_any = {properties = { "dockable" }
+      }, properties = { titlebars_enabled = false }
+    },
+
     -- Set Firefox to always map on the tag named "2" on screen 1.
-    { rule = { class = "Thunderbird" },
-    properties = { screen = 1, tag = "📨" } },
-    { rule = { class = "ProtonMail Bridge" },
-    properties = { screen = 1, tag = "📨" } },
-    { rule = { class = "Riot" },
-    properties = { screen = 1, tag = "💬" } },
-    { rule = { class = "IGdm" },
-    properties = { screen = 1, tag = "💬" } },
-    { rule = { class = "Signal" },
-    properties = { screen = 1, tag = "💬" } },
-    { rule = { class = "Code" },
-    properties = { screen = 1, tag = "🛠️" } },
-    { rule = { class = "Standard Notes" },
-    properties = { screen = 1, tag = "📓" } },
-    { rule = { class = "Xfdesktop" },
-    properties = { screen = 1, sticky = true } },
+--     { rule = { class = "Thunderbird" },
+--     properties = { screen = 1, tag = "9" } },
+--     { rule = { class = "ProtonMail Bridge" },
+--     properties = { screen = 1, tag = "9" } },
+--     { rule = { class = "Element" },
+--     properties = { screen = 1, tag = "💬" } },
+--     { rule = { class = "IGdm" },
+--     properties = { screen = 1, tag = "💬" } },
+--     { rule = { class = "Signal" },
+--     properties = { screen = 1, tag = "💬" } },
+--     { rule = { class = "Code" },
+--     properties = { screen = 1, tag = "🛠️" } },
+--     { rule = { class = "Standard Notes" },
+--     properties = { screen = 1, tag = "📓" } },
+--     { rule = { class = "Xfdesktop" },
+--     properties = { screen = 1, sticky = true } },
 }
 -- }}}
 
